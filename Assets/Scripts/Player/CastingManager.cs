@@ -36,6 +36,7 @@ public class CastingManager : MonoBehaviour
         if (currentState == FishingState.Cast && turnedOn == false)
         {
             Debug.Log("In the backed yard straight up casting it, and by it, hehe, well, lets justr say, my rod");
+            playerCasting.enabled = true;
             turnedOn = true;
         }
     }
