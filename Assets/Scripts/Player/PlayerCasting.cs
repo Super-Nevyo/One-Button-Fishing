@@ -2,26 +2,39 @@ using UnityEngine;
 
 public class PlayerCasting : MonoBehaviour
 {
-    [SerializeField] private Transform aimTarget;
+    [SerializeField] private GameObject aimTarget;
     [SerializeField] private Transform playerBody;
     [SerializeField] private float targetSpeed;
-    [SerializeField] private float aimMaxTimer;
-
+    
     [SerializeField] private Transform boundaryPoint1;
     [SerializeField] private Transform boundaryPoint2;
 
-    private float aimTimer;
-
+    private void Start()
+    {
+        if(aimTarget == null)
+            aimTarget = GameObject.FindGameObjectWithTag("Target");
+        
+        aimTarget.SetActive(true);
+    }
+    
     private void Update()
     {
-        aimTarget.position += playerBody.transform.up * (targetSpeed * Time.deltaTime);
+        aimTarget.transform.position += playerBody.transform.up * (targetSpeed * Time.deltaTime);
 
-        if (aimTarget.position.x <= boundaryPoint1.position.x || aimTarget.position.x >= boundaryPoint2.position.x)
+        if (aimTarget.transform.position.x <= boundaryPoint1.position.x || aimTarget.transform.position.x >= boundaryPoint2.position.x)
             targetSpeed *= -1;
         
-        if(aimTarget.position.y <= boundaryPoint1.position.y || aimTarget.position.y >= boundaryPoint2.position.y) 
+        if(aimTarget.transform.position.y <= boundaryPoint1.position.y || aimTarget.transform.position.y >= boundaryPoint2.position.y) 
             targetSpeed *= -1;
-        
-        
+    }
+
+    public Transform DropHook()
+    {
+        return aimTarget.transform;
+    }
+
+    public void HideTarget()
+    {
+        aimTarget.SetActive(false);
     }
 }

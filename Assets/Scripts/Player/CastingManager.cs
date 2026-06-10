@@ -7,6 +7,8 @@ public class CastingManager : MonoBehaviour
     [SerializeField] private float yankStrength;
     [SerializeField] private float lineIntegrity;
     [SerializeField] private float lineStrength;
+
+    [SerializeField] private GameObject hook;
     
     [Space(10)]
     [Header("Action Scripts")]
@@ -17,6 +19,9 @@ public class CastingManager : MonoBehaviour
     
     private FishingState currentState;
     private bool turnedOn;
+
+    private Transform hookPosition;
+    private bool pulling;
     private GameObject fih;
 
     private void Start()
@@ -39,6 +44,21 @@ public class CastingManager : MonoBehaviour
             playerCasting.enabled = true;
             turnedOn = true;
         }
+
+        if (currentState == FishingState.Waiting && pulling)
+        {
+            ReelInFish();
+            hook.transform.position = hookPosition.position;
+        }
+    }
+
+    private void ReelInFish()
+    {
+        //gonna throw some shit here for now
+        //can delete it when we have the fish do the reeling 
+        hookPosition.LookAt(transform);
+        
+        hookPosition.position += hookPosition.forward * (reelSpeed * Time.deltaTime);
     }
 
     private void TurnOffActions()
@@ -53,6 +73,21 @@ public class CastingManager : MonoBehaviour
         if (currentState == FishingState.Aim)
         {
             currentState = FishingState.Cast;
+        }
+        else if (currentState == FishingState.Cast)
+        {
+            hookPosition = playerCasting.DropHook();
+            playerCasting.HideTarget();
+            hook.SetActive(true);
+            currentState = FishingState.Waiting;
+        }
+        else if (currentState == FishingState.Waiting)
+        {
+            
+        }
+        else
+        {
+            return;
         }
         
         TurnOffActions();
