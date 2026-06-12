@@ -28,9 +28,9 @@ public class PlayerCasting : MonoBehaviour
             targetSpeed *= -1;
     }
 
-    public Transform DropHook()
+    public Vector3 DropHook()
     {
-        return aimTarget.transform;
+        return aimTarget.transform.position;
     }
 
     public void HideTarget()

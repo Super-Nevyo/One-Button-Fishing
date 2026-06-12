@@ -3,7 +3,7 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "One Button",
+            "name": "Click",
             "id": "92d286e4-a432-4754-9bdd-9eb993bd93ef",
             "actions": [
                 {
@@ -27,6 +27,56 @@
                     "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Hold",
+            "id": "7df54333-b30d-4011-9d9b-0b14e1fae53b",
+            "actions": [
+                {
+                    "name": "Hold",
+                    "type": "Value",
+                    "id": "934ee3d8-e059-42e6-a81b-18d3e17fff3e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "8d62861a-7f45-4d3e-a7e6-2b9bc434b7b5",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "48f41da8-366f-4d78-80ff-98728f29820b",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "c1ffeb84-cb4a-4d6e-8cb9-d3e07a622995",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

@@ -494,6 +494,7 @@ MonoBehaviour:
   hook: {fileID: 2070254193}
   playerAimer: {fileID: 1518503363}
   playerCasting: {fileID: 1518503364}
+  playerInput: {fileID: 1518503362}
 --- !u!4 &1518503361
 Transform:
   m_ObjectHideFlags: 0
@@ -539,7 +540,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: One Button
+  m_DefaultActionMap: Click
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1518503363

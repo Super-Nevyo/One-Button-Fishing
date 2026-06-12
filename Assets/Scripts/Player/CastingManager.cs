@@ -15,7 +15,7 @@ public class CastingManager : MonoBehaviour
     [SerializeField] private PlayerAimer playerAimer;
     [SerializeField] private PlayerCasting playerCasting;
 
-    private PlayerInput playerInput;
+    [SerializeField] private PlayerInput playerInput;
     
     private FishingState currentState;
     private bool turnedOn;
@@ -47,8 +47,7 @@ public class CastingManager : MonoBehaviour
 
         if (currentState == FishingState.Waiting && pulling)
         {
-            ReelInFish();
-            hook.transform.position = hookPosition.position;
+            
         }
     }
 
@@ -56,9 +55,11 @@ public class CastingManager : MonoBehaviour
     {
         //gonna throw some shit here for now
         //can delete it when we have the fish do the reeling 
-        hookPosition.LookAt(transform);
+        Vector3 degrees = hook.transform.position - transform.position;
         
-        hookPosition.position += hookPosition.forward * (reelSpeed * Time.deltaTime);
+        hook.transform.rotation = new Quaternion(degrees.x, degrees.y, 0, 0);
+        
+        hook.transform.position -= hook.transform.up * (reelSpeed * Time.deltaTime);
     }
 
     private void TurnOffActions()
@@ -76,14 +77,11 @@ public class CastingManager : MonoBehaviour
         }
         else if (currentState == FishingState.Cast)
         {
-            hookPosition = playerCasting.DropHook();
-            playerCasting.HideTarget();
             hook.SetActive(true);
+            hook.transform.position = playerCasting.DropHook();
+            playerCasting.HideTarget();
             currentState = FishingState.Waiting;
-        }
-        else if (currentState == FishingState.Waiting)
-        {
-            
+            playerInput.defaultActionMap = "Hold";
         }
         else
         {
@@ -91,5 +89,16 @@ public class CastingManager : MonoBehaviour
         }
         
         TurnOffActions();
+    }
+
+    public void OnHold(InputValue value)
+    {
+        if (currentState == FishingState.Waiting)
+        {
+            if (value.Get<float>() >= 0.5f)
+            {
+                ReelInFish();
+            }
+        }
     }
 }
