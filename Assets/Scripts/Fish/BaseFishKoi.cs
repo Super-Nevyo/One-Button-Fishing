@@ -53,7 +53,8 @@ public class BaseFishKoi : MonoBehaviour
             Debug.Log(FishDislike);
         }
         else if (FishDislike < 0) { FishDislike = 0; }
-        if (FishDislike > maxFishDislike) { MyStateMachine.ChangeState(MyStateMachine.RunState); }
+        if (FishDislike > maxFishDislike && !IsEscaping) { MyStateMachine.ChangeState(MyStateMachine.RunState); }
+        if (transform.position.y > 6 && IsEscaping) GameObject.Destroy(this.gameObject);
         if (IsYanked)
         {
             OnYank();

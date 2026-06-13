@@ -110,7 +110,7 @@ MonoBehaviour:
   Speed: 0.01
   DecisionSpeed: 1.5
   WaitTime: 2
-  TurnSpeed: 1
+  TurnSpeed: 3
   RunMult: 2
   maxFishDislike: 100
   YankDislike: 10
@@ -123,7 +123,7 @@ MonoBehaviour:
   FishDislike: 0
   MoveToPoint: {x: 0, y: 0}
   RB: {fileID: 0}
-  IsHooked: 1
+  IsHooked: 0
   IsYanked: 0
   IsReeled: 0
   IsEscaping: 0
