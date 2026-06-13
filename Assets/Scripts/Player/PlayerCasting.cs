@@ -30,6 +30,7 @@ public class PlayerCasting : MonoBehaviour
 
     public Vector3 DropHook()
     {
+        Debug.Log(aimTarget.transform.position);
         return aimTarget.transform.position;
     }
 

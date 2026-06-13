@@ -492,6 +492,7 @@ MonoBehaviour:
   lineIntegrity: 0
   lineStrength: 0
   hook: {fileID: 2070254193}
+  aimer: {fileID: 252763983}
   playerAimer: {fileID: 1518503363}
   playerCasting: {fileID: 1518503364}
   playerInput: {fileID: 1518503362}
@@ -675,6 +676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2070254194}
+  - component: {fileID: 2070254195}
   m_Layer: 0
   m_Name: Hook
   m_TagString: Untagged
@@ -698,6 +700,33 @@ Transform:
   - {fileID: 1805859037}
   m_Father: {fileID: 1518503361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2070254195
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070254193}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 48
+  m_CollisionDetection: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

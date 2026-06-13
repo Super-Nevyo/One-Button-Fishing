@@ -8,25 +8,47 @@
             "actions": [
                 {
                     "name": "Action",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "59b96628-1d79-4ce3-a0a7-6e1ba4d15ab1",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "046df599-b5d3-4012-b317-05c3cf093d10",
+                    "name": "1D Axis",
+                    "id": "4dca6064-f12c-4c9a-b42a-83c412e365c9",
+                    "path": "1DAxis(whichSideWins=1)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "ae4b22ea-cecc-4152-9278-5c36f26174cb",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "1d64c70f-7a4d-4e7d-ab1f-7ad970ae0ee8",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Action",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 }
             ]
         },

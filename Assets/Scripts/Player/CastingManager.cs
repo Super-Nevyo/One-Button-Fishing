@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class CastingManager : MonoBehaviour
     [SerializeField] private float lineStrength;
 
     [SerializeField] private GameObject hook;
+    [SerializeField] private GameObject aimer;
     
     [Space(10)]
     [Header("Action Scripts")]
@@ -20,14 +22,18 @@ public class CastingManager : MonoBehaviour
     private FishingState currentState;
     private bool turnedOn;
 
+    private float pressValue;
+    private Vector3 direction;
+    private Vector3 hookSpawnPoint;
     private Transform hookPosition;
-    private bool pulling;
+    private bool canClick;
     private GameObject fih;
 
     private void Start()
     {
         TurnOffActions();
         currentState = FishingState.Aim;
+        canClick = true;
     }
 
     private void Update()
@@ -40,14 +46,14 @@ public class CastingManager : MonoBehaviour
 
         if (currentState == FishingState.Cast && turnedOn == false)
         {
-            Debug.Log("In the backed yard straight up casting it, and by it, hehe, well, lets justr say, my rod");
             playerCasting.enabled = true;
             turnedOn = true;
         }
 
-        if (currentState == FishingState.Waiting && pulling)
+        if (currentState == FishingState.Waiting)
         {
-            
+            ReelInFish();
+            CheckHookDistance();
         }
     }
 
@@ -55,11 +61,21 @@ public class CastingManager : MonoBehaviour
     {
         //gonna throw some shit here for now
         //can delete it when we have the fish do the reeling 
-        Vector3 degrees = hook.transform.position - transform.position;
-        
-        hook.transform.rotation = new Quaternion(degrees.x, degrees.y, 0, 0);
-        
-        hook.transform.position -= hook.transform.up * (reelSpeed * Time.deltaTime);
+        direction = (hook.transform.position - transform.position).normalized;
+        hook.transform.position -= direction * (reelSpeed * pressValue * Time.deltaTime);
+    }
+
+    private void CheckHookDistance()
+    {
+        if (hook.transform.position.x < hookSpawnPoint.x + 1 && hook.transform.position.x > hookSpawnPoint.x - 1)
+        {
+            if (hook.transform.position.y < hookSpawnPoint.y + 1 && hook.transform.position.y > hookSpawnPoint.y - 1 && pressValue < 1)
+            {
+                currentState = FishingState.Aim;
+                hook.SetActive(false);
+                StartCoroutine(clickTimer(0.2f));
+            }
+        }
     }
 
     private void TurnOffActions()
@@ -71,17 +87,25 @@ public class CastingManager : MonoBehaviour
 
     public void OnAction(InputValue value)
     {
-        if (currentState == FishingState.Aim)
+        if (currentState == FishingState.Aim && canClick)
         {
             currentState = FishingState.Cast;
+            StartCoroutine(clickTimer(0.2f));
+            aimer.SetActive(true);
+            aimer.transform.position = transform.position;
         }
-        else if (currentState == FishingState.Cast)
+        else if (currentState == FishingState.Cast && canClick)
         {
             hook.SetActive(true);
+            hookSpawnPoint = hook.transform.position;
             hook.transform.position = playerCasting.DropHook();
             playerCasting.HideTarget();
             currentState = FishingState.Waiting;
-            playerInput.defaultActionMap = "Hold";
+            StartCoroutine(clickTimer(0.2f));
+        }
+        else if (currentState == FishingState.Waiting)
+        {
+            pressValue = value.Get<float>();
         }
         else
         {
@@ -91,14 +115,10 @@ public class CastingManager : MonoBehaviour
         TurnOffActions();
     }
 
-    public void OnHold(InputValue value)
+    private IEnumerator clickTimer(float timer)
     {
-        if (currentState == FishingState.Waiting)
-        {
-            if (value.Get<float>() >= 0.5f)
-            {
-                ReelInFish();
-            }
-        }
+        canClick = false;
+        yield return new WaitForSeconds(timer);
+        canClick = true;
     }
 }
