@@ -8,6 +8,8 @@ public class CastingManager : MonoBehaviour
     [SerializeField] private float yankStrength;
     [SerializeField] private float lineIntegrity;
     [SerializeField] private float lineStrength;
+    
+    [SerializeField] private LineRenderer lineRenderer;
 
     [SerializeField] private GameObject hook;
     [SerializeField] private GameObject aimer;
@@ -34,6 +36,7 @@ public class CastingManager : MonoBehaviour
         TurnOffActions();
         currentState = FishingState.Aim;
         canClick = true;
+        lineRenderer.SetPosition(0, transform.position);
     }
 
     private void Update()
@@ -41,6 +44,7 @@ public class CastingManager : MonoBehaviour
         if (currentState == FishingState.Aim && turnedOn == false)
         {
             playerAimer.enabled = true;
+            lineRenderer.enabled = false;
             turnedOn = true;
         }
 
@@ -63,6 +67,7 @@ public class CastingManager : MonoBehaviour
         //can delete it when we have the fish do the reeling 
         direction = (hook.transform.position - transform.position).normalized;
         hook.transform.position -= direction * (reelSpeed * pressValue * Time.deltaTime);
+        lineRenderer.SetPosition(1, hook.transform.position);
     }
 
     private void CheckHookDistance()
@@ -101,6 +106,7 @@ public class CastingManager : MonoBehaviour
             hook.transform.position = playerCasting.DropHook();
             playerCasting.HideTarget();
             currentState = FishingState.Waiting;
+            lineRenderer.enabled = true;
             StartCoroutine(clickTimer(0.2f));
         }
         else if (currentState == FishingState.Waiting)

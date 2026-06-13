@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerAimer : MonoBehaviour
 {
-    [SerializeField] private GameObject playerBody;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float degrees;
 
@@ -10,7 +9,7 @@ public class PlayerAimer : MonoBehaviour
     {
         degrees += rotationSpeed * Time.deltaTime;
         
-        playerBody.transform.rotation = Quaternion.Euler(0, 0, Mathf.Clamp(degrees, -45, 45));
+        transform.rotation = Quaternion.Euler(0, 0, Mathf.Clamp(degrees, -45, 45));
 
         if (degrees > 44 || degrees < -44)
         {
