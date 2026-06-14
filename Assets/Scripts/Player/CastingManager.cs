@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +30,7 @@ public class CastingManager : MonoBehaviour
     private Vector3 hookSpawnPoint;
     private Transform hookPosition;
     private bool canClick;
-    private GameObject fih;
+    private GameObject fish;
 
     private void Start()
     {
@@ -62,7 +63,15 @@ public class CastingManager : MonoBehaviour
 
         if (currentState == FishingState.Caught)
         {
-            lineRenderer.SetPosition(1, fih.transform.position);
+            if (fish == null)
+            {
+                currentState = FishingState.Aim;
+                TurnOffActions();
+                StartCoroutine(clickTimer(0.2f));
+                return;
+            }
+            
+            lineRenderer.SetPosition(1, fish.transform.position);
         }
     }
 
@@ -98,8 +107,10 @@ public class CastingManager : MonoBehaviour
     public void CaughtFish(GameObject currentFish)
     {
         hook.gameObject.SetActive(false);
-        fih = currentFish;
+        fish = currentFish;
         currentState = FishingState.Caught;
+        fish.GetComponent<BaseFishKoi>().FishDislike += 1;
+        fish.GetComponent<BaseFishKoi>().IsReeled = true;
     }
 
     public void OnAction(InputValue value)
@@ -114,7 +125,7 @@ public class CastingManager : MonoBehaviour
         else if (currentState == FishingState.Cast && canClick)
         {
             hook.SetActive(true);
-            hookSpawnPoint = hook.transform.position;
+            hookSpawnPoint = transform.position;
             hook.transform.position = playerCasting.DropHook();
             playerCasting.HideTarget();
             currentState = FishingState.Waiting;
@@ -125,9 +136,9 @@ public class CastingManager : MonoBehaviour
         {
             pressValue = value.Get<float>();
         }
-        else
+        else if (currentState == FishingState.Caught)
         {
-            return;
+            fish.GetComponent<BaseFishKoi>().FishDislike += 1 * Time.deltaTime;
         }
         
         TurnOffActions();
