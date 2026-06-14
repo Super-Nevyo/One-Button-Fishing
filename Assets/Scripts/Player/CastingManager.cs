@@ -59,6 +59,11 @@ public class CastingManager : MonoBehaviour
             ReelInFish();
             CheckHookDistance();
         }
+
+        if (currentState == FishingState.Caught)
+        {
+            lineRenderer.SetPosition(1, fih.transform.position);
+        }
     }
 
     private void ReelInFish()
@@ -88,6 +93,13 @@ public class CastingManager : MonoBehaviour
         playerAimer.enabled = false;
         playerCasting.enabled = false;
         turnedOn = false;
+    }
+
+    public void CaughtFish(GameObject currentFish)
+    {
+        hook.gameObject.SetActive(false);
+        fih = currentFish;
+        currentState = FishingState.Caught;
     }
 
     public void OnAction(InputValue value)
