@@ -50,7 +50,7 @@ public class BaseFishKoi : MonoBehaviour
         if (FishDislike > 0)
         {
             FishDislike -= dislikeDrain * Time.fixedDeltaTime;
-            Debug.Log(FishDislike);
+            //Debug.Log(FishDislike);
         }
         else if (FishDislike < 0) { FishDislike = 0; }
         if (FishDislike > maxFishDislike && !IsEscaping) { MyStateMachine.ChangeState(MyStateMachine.RunState); }

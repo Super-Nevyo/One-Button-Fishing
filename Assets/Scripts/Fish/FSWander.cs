@@ -41,6 +41,6 @@ public class FSWander : IFishState
 
     public void OnYank()
     {
-        
+        Debug.Log("wander");
     }
 }

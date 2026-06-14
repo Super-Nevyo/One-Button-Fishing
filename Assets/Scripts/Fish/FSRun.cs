@@ -17,6 +17,7 @@ public class FSRun : IFishState
 
     public void OnYank()
     {
+        Debug.Log("run");
     }
 
     public void Update()

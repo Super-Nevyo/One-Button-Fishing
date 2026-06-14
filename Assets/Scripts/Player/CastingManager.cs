@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -63,7 +62,7 @@ public class CastingManager : MonoBehaviour
 
         if (currentState == FishingState.Caught)
         {
-            if (fish == null)
+            if (fish.transform.position.y > 5.5f)
             {
                 currentState = FishingState.Aim;
                 TurnOffActions();
@@ -110,7 +109,7 @@ public class CastingManager : MonoBehaviour
         fish = currentFish;
         currentState = FishingState.Caught;
         fish.GetComponent<BaseFishKoi>().FishDislike += 1;
-        fish.GetComponent<BaseFishKoi>().IsReeled = true;
+        fish.GetComponent<BaseFishKoi>().OnReel(lineStrength);
     }
 
     public void OnAction(InputValue value)
@@ -138,7 +137,7 @@ public class CastingManager : MonoBehaviour
         }
         else if (currentState == FishingState.Caught)
         {
-            fish.GetComponent<BaseFishKoi>().FishDislike += 1 * Time.deltaTime;
+            fish.GetComponent<BaseFishKoi>().IsYanked = true;
         }
         
         TurnOffActions();
