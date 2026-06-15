@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class CastingManager : MonoBehaviour
     [SerializeField] private float lineStrength;
     
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private LineStrengthDisplay lsd;
 
     [SerializeField] private GameObject hook;
     [SerializeField] private GameObject aimer;
@@ -46,6 +48,8 @@ public class CastingManager : MonoBehaviour
     {
         if (currentState == FishingState.Aim && turnedOn == false)
         {
+            lineIntegrity = startingIntegrity;
+            lsd.UpdateOpacity(0);
             playerAimer.enabled = true;
             lineRenderer.enabled = false;
             turnedOn = true;
@@ -79,8 +83,9 @@ public class CastingManager : MonoBehaviour
                 StartCoroutine(clickTimer(0.2f));
                 fish.OnCaught();
             }
-            
             lineRenderer.SetPosition(1, fish.transform.position);
+            
+            BreakingLine(pressValue * (fish.FishDislike + fish.PullStrength) * Time.deltaTime);
         }
     }
 
@@ -123,15 +128,16 @@ public class CastingManager : MonoBehaviour
     public void BreakingLine(float fishStrength)
     {
         lineIntegrity -= fishStrength;
+        lsd.UpdateOpacity(1 - lineIntegrity / startingIntegrity);
 
         if (lineIntegrity <= 0)
         {
             lineRenderer.enabled = false;
-            fish.MyStateMachine.ChangeState(fish.MyStateMachine.RunState);
+            fish?.MyStateMachine.ChangeState(fish.MyStateMachine.RunState);
             lineIntegrity = startingIntegrity;
+            StartCoroutine(clickTimer(0.5f));
             currentState = FishingState.Aim;
             TurnOffActions();
-            StartCoroutine(clickTimer(0.2f));
         }
     }
 
@@ -160,13 +166,13 @@ public class CastingManager : MonoBehaviour
         }
         else if (currentState == FishingState.Caught)
         {
+            pressValue = value.Get<float>();
             if (!canClick)
             {
                 fish.OnYank();
-                BreakingLine(fish.PullStrength);
             }
             else StartCoroutine(clickTimer(0.2f));
-            fish.OnReel(lineStrength * value.Get<float>());
+            fish.OnReel(lineStrength * pressValue);
         }
         
         TurnOffActions();
