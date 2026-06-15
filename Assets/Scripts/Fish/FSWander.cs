@@ -4,10 +4,13 @@ using UnityEngine;
 public class FSWander : IFishState
 {
     private BaseFishKoi _fish;
+    private RaycastHit2D _hit;
     public void Enter()
     {
         _fish.StartCoroutine(StopWanderAfter(_fish.DecisionSpeed));
-        _fish.PickWanderLocation();
+        _hit = Physics2D.CircleCast(_fish.transform.position, _fish.CircleCastRadius, Vector2.up, 0.01f, 64);
+        if (_hit) _fish.MoveToPoint = _hit.transform.position;
+        else _fish.PickWanderLocation();
         _fish.Anim.SetBool("Swim", true);
     }
 
@@ -24,7 +27,7 @@ public class FSWander : IFishState
 
         if (_fish.IsReeled)
         {
-            _fish.RB.angularVelocity += -_fish.ReelStrength * 10 * Mathf.Atan2(Mathf.Cos(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Sin(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad));
+            _fish.RB.angularVelocity += -(_fish.ReelStrength / _fish.PullStrength) * 10 * Mathf.Atan2(Mathf.Cos(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Sin(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad));
             _fish.RB.linearVelocity += (_fish.ReelStrength / _fish.PullStrength) * (_fish.PlayerPosition - new Vector2(_fish.transform.position.x, _fish.transform.position.y)).normalized;
             _fish.FishDislike += _fish.ReelDislike * Time.fixedDeltaTime;
         }
