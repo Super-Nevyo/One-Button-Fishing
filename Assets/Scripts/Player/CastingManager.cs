@@ -29,7 +29,7 @@ public class CastingManager : MonoBehaviour
     private Vector3 hookSpawnPoint;
     private Transform hookPosition;
     private bool canClick;
-    private GameObject fish;
+    private BaseFishKoi fish;
 
     private void Start()
     {
@@ -69,6 +69,13 @@ public class CastingManager : MonoBehaviour
                 StartCoroutine(clickTimer(0.2f));
                 return;
             }
+            if ((fish.transform.position - hookSpawnPoint).magnitude < 1)
+            {
+                currentState = FishingState.Aim;
+                TurnOffActions();
+                StartCoroutine(clickTimer(0.2f));
+                fish.OnCaught();
+            }
             
             lineRenderer.SetPosition(1, fish.transform.position);
         }
@@ -85,15 +92,12 @@ public class CastingManager : MonoBehaviour
 
     private void CheckHookDistance()
     {
-        if (hook.transform.position.x < hookSpawnPoint.x + 1 && hook.transform.position.x > hookSpawnPoint.x - 1)
-        {
-            if (hook.transform.position.y < hookSpawnPoint.y + 1 && hook.transform.position.y > hookSpawnPoint.y - 1 && pressValue < 1)
+        if ((hookSpawnPoint - hook.transform.position).magnitude < 1 && pressValue < 1)
             {
                 currentState = FishingState.Aim;
                 hook.SetActive(false);
                 StartCoroutine(clickTimer(0.2f));
             }
-        }
     }
 
     private void TurnOffActions()
@@ -103,13 +107,13 @@ public class CastingManager : MonoBehaviour
         turnedOn = false;
     }
 
-    public void CaughtFish(GameObject currentFish)
+    public void CaughtFish(BaseFishKoi currentFish)
     {
         hook.gameObject.SetActive(false);
         fish = currentFish;
         currentState = FishingState.Caught;
-        fish.GetComponent<BaseFishKoi>().FishDislike += 1;
-        fish.GetComponent<BaseFishKoi>().OnReel(lineStrength);
+        fish.FishDislike += 1;
+        fish.OnHooked(this);
     }
 
     public void OnAction(InputValue value)
@@ -137,7 +141,10 @@ public class CastingManager : MonoBehaviour
         }
         else if (currentState == FishingState.Caught)
         {
-            fish.GetComponent<BaseFishKoi>().IsYanked = true;
+            if (!canClick)
+                fish.OnYank();
+            else StartCoroutine(clickTimer(0.2f));
+            fish.OnReel(lineStrength * value.Get<float>());
         }
         
         TurnOffActions();

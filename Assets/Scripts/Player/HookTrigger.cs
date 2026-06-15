@@ -7,7 +7,10 @@ public class HookTrigger : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
         //reference to the fish state
-        if(col.gameObject.CompareTag("Fish"))
-            castingManager.CaughtFish(col.gameObject);
+        if (col.gameObject.CompareTag("Fish"))
+        {
+            castingManager.CaughtFish(col.GetComponent<BaseFishKoi>());
+            Debug.Log("Caught");
+        }
     }
 }

@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class BaseFishKoi : MonoBehaviour
 {
+    [SerializeField] public Animator Anim;
     [SerializeField] public float PullStrength;
-    [SerializeField] protected float pointAmount;
+    [SerializeField] protected int pointAmount;
     [SerializeField] public float Speed;
     [SerializeField] public float DecisionSpeed;
     [SerializeField] public float WaitTime;
@@ -33,6 +34,7 @@ public class BaseFishKoi : MonoBehaviour
     public bool IsReeled;
     [HideInInspector]
     public bool IsEscaping = false;
+    private CastingManager _player;
 
 
     void Start()
@@ -62,9 +64,15 @@ public class BaseFishKoi : MonoBehaviour
     }
 
     
-    public void OnHooked()
+    public void OnHooked(CastingManager player)
     {
-
+        IsHooked = true;
+        _player = player;
+    }
+    public void OnCaught()
+    {
+        GameManager.instance.AddScore(pointAmount);
+        Destroy(this.gameObject);
     }
     public void OnYank()
     {
@@ -77,6 +85,8 @@ public class BaseFishKoi : MonoBehaviour
         if (ReelStrength != 0) IsReeled = true;
         else IsReeled = false;
     }
+
+
     public virtual void PickWanderLocation()
     {
         topLeft = new Vector2(-8, 4);

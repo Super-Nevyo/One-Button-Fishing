@@ -7,11 +7,13 @@ public class FSIdle : IFishState
     public void Enter()
     {
         _fish.StartCoroutine(IdleFor(_fish.WaitTime));
+        _fish.Anim.SetBool("Idle", true);
     }
 
     public void Exit()
     {
         _fish.StopCoroutine(IdleFor(_fish.WaitTime));
+        _fish.Anim.SetBool("Idle", false);
     }
 
     public void Update()
@@ -36,6 +38,8 @@ public class FSIdle : IFishState
 
     public void OnYank()
     {
-        throw new System.NotImplementedException();
+        _fish.FishDislike += _fish.YankDislike * _fish.IdleMultiplier;
+        _fish.RB.angularVelocity += -_fish.YankStrength * 10 * Mathf.Atan2(Mathf.Cos(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Sin(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad));
+        _fish.RB.linearVelocity += _fish.YankStrength * (_fish.PlayerPosition - new Vector2(_fish.transform.position.x, _fish.transform.position.y)).normalized;
     }
 }

@@ -739,9 +739,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CastingManager
   reelSpeed: 10
-  yankStrength: 0
+  yankStrength: 5
   lineIntegrity: 0
-  lineStrength: 0
+  lineStrength: 0.1
   lineRenderer: {fileID: 1518503365}
   hook: {fileID: 2070254193}
   aimer: {fileID: 252763983}

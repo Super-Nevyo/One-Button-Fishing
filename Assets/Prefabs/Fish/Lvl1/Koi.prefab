@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5235444527854078468}
   - component: {fileID: 9040589494541348780}
   - component: {fileID: 303697223776791886}
+  - component: {fileID: 6540387755559447055}
   m_Layer: 0
   m_Name: Koi
   m_TagString: Fish
@@ -84,12 +85,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: abed0c8943fb0b346b480a0194804cc1, type: 3}
+  m_Color: {r: 0.4745098, g: 0.77254903, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -106,8 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce632a7256bab6b4083371527eaeeeba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseFishKoi
+  Anim: {fileID: 6540387755559447055}
   PullStrength: 3
-  pointAmount: 0
+  pointAmount: 10
   Speed: 0.01
   DecisionSpeed: 1.5
   WaitTime: 2
@@ -193,11 +195,33 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.4, y: 0.8}
   m_EdgeRadius: 0
+--- !u!95 &6540387755559447055
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3912759667832918748}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 212c2c0eda536484f91c91f40e71f77e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

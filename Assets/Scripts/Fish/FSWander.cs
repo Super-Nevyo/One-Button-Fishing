@@ -8,11 +8,13 @@ public class FSWander : IFishState
     {
         _fish.StartCoroutine(StopWanderAfter(_fish.DecisionSpeed));
         _fish.PickWanderLocation();
+        _fish.Anim.SetBool("Swim", true);
     }
 
     public void Exit()
     {
         _fish.StopCoroutine(StopWanderAfter(_fish.DecisionSpeed));
+        _fish.Anim.SetBool("Swim", false);
     }
 
     public void Update()
@@ -41,6 +43,9 @@ public class FSWander : IFishState
 
     public void OnYank()
     {
+        _fish.FishDislike += _fish.YankDislike;
+        _fish.RB.angularVelocity += -_fish.YankStrength * 10 * Mathf.Atan2(Mathf.Cos(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Sin(Mathf.Atan2(_fish.PlayerPosition.y - _fish.transform.position.y, _fish.PlayerPosition.x - _fish.transform.position.x) - _fish.transform.rotation.eulerAngles.z * Mathf.Deg2Rad));
+        _fish.RB.linearVelocity += (_fish.YankStrength / _fish.PullStrength) * (_fish.PlayerPosition - new Vector2(_fish.transform.position.x, _fish.transform.position.y)).normalized;
         Debug.Log("wander");
     }
 }
