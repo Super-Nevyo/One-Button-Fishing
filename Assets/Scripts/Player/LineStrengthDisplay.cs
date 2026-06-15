@@ -8,6 +8,5 @@ public class LineStrengthDisplay : MonoBehaviour
     public void UpdateOpacity(float percent)
     {
         image.color = new Color(image.color.r, image.color.g, image.color.b, percent);
-        Debug.Log(percent);
     }
 }

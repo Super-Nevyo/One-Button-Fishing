@@ -53,7 +53,7 @@ public class BaseFishKoi : MonoBehaviour
         if (FishDislike > 0)
         {
             FishDislike -= dislikeDrain * Time.fixedDeltaTime;
-            //Debug.Log(FishDislike);
+            Debug.Log(FishDislike);
         }
         else if (FishDislike < 0) { FishDislike = 0; }
         if (FishDislike > maxFishDislike && !IsEscaping)
@@ -61,7 +61,12 @@ public class BaseFishKoi : MonoBehaviour
             MyStateMachine.ChangeState(MyStateMachine.RunState);
             _player.BreakingLine(1000);
         }
-        if (transform.position.y > 6 && IsEscaping) GameObject.Destroy(this.gameObject);
+
+        if (transform.position.y > 6 && IsEscaping)
+        {
+            GameObject.Destroy(this.gameObject);
+            GameManager.instance.SpawnFish();
+        }
         if (IsYanked)
         {
             OnYank();
@@ -77,6 +82,7 @@ public class BaseFishKoi : MonoBehaviour
     public void OnCaught()
     {
         GameManager.instance.AddScore(pointAmount);
+        GameManager.instance.SpawnFish();
         Destroy(this.gameObject);
     }
     public void OnYank()

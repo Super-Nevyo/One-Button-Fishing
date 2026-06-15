@@ -133,7 +133,6 @@ public class CastingManager : MonoBehaviour
         if (lineIntegrity <= 0)
         {
             lineRenderer.enabled = false;
-            fish?.MyStateMachine.ChangeState(fish.MyStateMachine.RunState);
             lineIntegrity = startingIntegrity;
             StartCoroutine(clickTimer(0.5f));
             currentState = FishingState.Aim;
