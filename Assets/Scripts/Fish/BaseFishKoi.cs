@@ -19,6 +19,7 @@ public class BaseFishKoi : MonoBehaviour
     [SerializeField] public Vector2 PlayerPosition;
     [SerializeField] public float YankStrength;
     [SerializeField] public float ReelStrength;
+    [SerializeField] public float CircleCastRadius;
     protected Vector2 topLeft;
     protected Vector2 botRight;
     [HideInInspector]

@@ -123,6 +123,7 @@ MonoBehaviour:
   PlayerPosition: {x: 0, y: -3.5}
   YankStrength: 1
   ReelStrength: 0.05
+  CircleCastRadius: 2
   FishDislike: 0
   MoveToPoint: {x: 0, y: 0}
   RB: {fileID: 0}

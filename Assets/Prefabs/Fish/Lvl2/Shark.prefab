@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseFishKoi
   Anim: {fileID: 8150409868955762087}
-  PullStrength: 5
+  PullStrength: 7
   pointAmount: 25
   Speed: 0.02
   DecisionSpeed: 2
@@ -138,13 +138,14 @@ MonoBehaviour:
   TurnSpeed: 1
   RunMult: 3
   maxFishDislike: 200
-  YankDislike: 5
-  ReelDislike: 5
-  IdleMultiplier: 5
+  YankDislike: 1
+  ReelDislike: 20
+  IdleMultiplier: 10
   dislikeDrain: 1
   PlayerPosition: {x: 0, y: -3.5}
-  YankStrength: 10
+  YankStrength: 1
   ReelStrength: 0
+  CircleCastRadius: 2
   FishDislike: 0
   MoveToPoint: {x: 0, y: 0}
   RB: {fileID: 0}
