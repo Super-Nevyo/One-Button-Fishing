@@ -31,12 +31,15 @@ public class CastingManager : MonoBehaviour
     private bool canClick;
     private BaseFishKoi fish;
 
+    private float startingIntegrity;
+
     private void Start()
     {
         TurnOffActions();
         currentState = FishingState.Aim;
         canClick = true;
         lineRenderer.SetPosition(0, transform.position);
+        startingIntegrity = lineIntegrity;
     }
 
     private void Update()
@@ -111,9 +114,25 @@ public class CastingManager : MonoBehaviour
     {
         hook.gameObject.SetActive(false);
         fish = currentFish;
+        Debug.Log(fish);
         currentState = FishingState.Caught;
         fish.FishDislike += 1;
         fish.OnHooked(this);
+    }
+
+    public void BreakingLine(float fishStrength)
+    {
+        lineIntegrity -= fishStrength;
+
+        if (lineIntegrity <= 0)
+        {
+            lineRenderer.enabled = false;
+            fish.MyStateMachine.ChangeState(fish.MyStateMachine.RunState);
+            lineIntegrity = startingIntegrity;
+            currentState = FishingState.Aim;
+            TurnOffActions();
+            StartCoroutine(clickTimer(0.2f));
+        }
     }
 
     public void OnAction(InputValue value)
@@ -142,7 +161,10 @@ public class CastingManager : MonoBehaviour
         else if (currentState == FishingState.Caught)
         {
             if (!canClick)
+            {
                 fish.OnYank();
+                BreakingLine(fish.PullStrength);
+            }
             else StartCoroutine(clickTimer(0.2f));
             fish.OnReel(lineStrength * value.Get<float>());
         }
