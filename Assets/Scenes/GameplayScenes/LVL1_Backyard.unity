@@ -593,8 +593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   fish:
   - {fileID: 3912759667832918748, guid: 13b911b8ae75c9c409ca3459e38b0297, type: 3}
-  - {fileID: 7212110958059433044, guid: e1f76bc55dc6ef4488be55c812df3bb2, type: 3}
-  - {fileID: 7346461616213422804, guid: c8dcf9547723d57499cc11d96c872ecc, type: 3}
 --- !u!4 &749725515
 Transform:
   m_ObjectHideFlags: 0
