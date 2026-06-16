@@ -140,7 +140,7 @@ MonoBehaviour:
   maxFishDislike: 200
   YankDislike: 1
   ReelDislike: 20
-  IdleMultiplier: 10
+  IdleMultiplier: 0.1
   dislikeDrain: 1
   PlayerPosition: {x: 0, y: -3.5}
   YankStrength: 1
