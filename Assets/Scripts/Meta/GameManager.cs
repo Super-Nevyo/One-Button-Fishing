@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int[] scoreToWin;
     private GameObject newFish;
     private int _lvlWeOn;
+    private Vector3 spawnOffset;
 
     void Awake()
     {
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+        
+        spawnOffset = new Vector3(transform.position.x, transform.position.y + 6, 0);
     }
     public void AddScore(int score)
     {
@@ -62,7 +65,8 @@ public class GameManager : MonoBehaviour
         else
             newFish = fish[0];
         
-        Instantiate(newFish, transform.position, newFish.transform.rotation);
+        Instantiate(newFish, spawnOffset, newFish.transform.rotation);
+        spawnOffset.x = UnityEngine.Random.Range(-3, 4);
     }
 
     public void StartScene()

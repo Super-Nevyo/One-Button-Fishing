@@ -11,6 +11,7 @@ public class CastingManager : MonoBehaviour
     [SerializeField] private float lineStrength;
     
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private GameObject lineStrengthIdentifier;
     [SerializeField] private LineStrengthDisplay lsd;
 
     [SerializeField] private GameObject hook;
@@ -31,6 +32,7 @@ public class CastingManager : MonoBehaviour
     private Vector3 hookSpawnPoint;
     private Transform hookPosition;
     private bool canClick;
+    private bool aimSwitchCondition;
     private BaseFishKoi fish;
 
     private float startingIntegrity;
@@ -41,21 +43,21 @@ public class CastingManager : MonoBehaviour
         currentState = FishingState.Aim;
         canClick = true;
         lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.enabled = false;
         startingIntegrity = lineIntegrity;
+        aimSwitchCondition = false;
     }
 
     private void Update()
     {
-        if (currentState == FishingState.Aim && turnedOn == false)
+        if (currentState == FishingState.Aim && !turnedOn)
         {
             lineIntegrity = startingIntegrity;
-            lsd.UpdateOpacity(0);
             playerAimer.enabled = true;
-            lineRenderer.enabled = false;
             turnedOn = true;
         }
 
-        if (currentState == FishingState.Cast && turnedOn == false)
+        if (currentState == FishingState.Cast && !turnedOn)
         {
             playerCasting.enabled = true;
             turnedOn = true;
@@ -69,22 +71,37 @@ public class CastingManager : MonoBehaviour
 
         if (currentState == FishingState.Caught)
         {
-            if (fish.transform.position.y > 5.5f)
+            if (pressValue < 0.4f && aimSwitchCondition)
             {
+                aimSwitchCondition = false;
+                lineRenderer.enabled = false;
+                lsd.UpdateOpacity(0);
+                lineStrengthIdentifier.SetActive(false);
+                fish = null;
                 currentState = FishingState.Aim;
                 TurnOffActions();
                 StartCoroutine(clickTimer(0.2f));
                 return;
             }
-            if ((fish.transform.position - hookSpawnPoint).magnitude < 1)
+
+            if (!aimSwitchCondition)
             {
-                currentState = FishingState.Aim;
-                TurnOffActions();
-                StartCoroutine(clickTimer(0.2f));
-                fish.OnCaught();
+                if (fish.transform.position.y > 5.5f)
+                {
+                    aimSwitchCondition = true;
+                    return;
+                }
+                if ((fish.transform.position - hookSpawnPoint).magnitude < 1)
+                {
+                    aimSwitchCondition = true;
+                    fish.OnCaught();
+                    return;
+                }
             }
-            lineRenderer.SetPosition(1, fish.transform.position);
+
+            if (fish == null) {lineRenderer.enabled = false; return;}
             
+            lineRenderer.SetPosition(1, fish.transform.position);
             BreakingLine(pressValue * (fish.FishDislike + fish.PullStrength) * Time.deltaTime);
         }
     }
@@ -101,11 +118,11 @@ public class CastingManager : MonoBehaviour
     private void CheckHookDistance()
     {
         if ((hookSpawnPoint - hook.transform.position).magnitude < 1 && pressValue < 1)
-            {
-                currentState = FishingState.Aim;
-                hook.SetActive(false);
-                StartCoroutine(clickTimer(0.2f));
-            }
+        { 
+            currentState = FishingState.Aim; 
+            hook.SetActive(false); 
+            StartCoroutine(clickTimer(0.2f));
+        }
     }
 
     private void TurnOffActions()
@@ -121,6 +138,7 @@ public class CastingManager : MonoBehaviour
         fish = currentFish;
         Debug.Log(fish);
         currentState = FishingState.Caught;
+        lineStrengthIdentifier.SetActive(true);
         fish.FishDislike += 1;
         fish.OnHooked(this);
     }
@@ -132,11 +150,7 @@ public class CastingManager : MonoBehaviour
 
         if (lineIntegrity <= 0)
         {
-            lineRenderer.enabled = false;
-            lineIntegrity = startingIntegrity;
-            StartCoroutine(clickTimer(0.5f));
-            currentState = FishingState.Aim;
-            TurnOffActions();
+            aimSwitchCondition = true;
         }
     }
 
