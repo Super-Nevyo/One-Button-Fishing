@@ -59,7 +59,6 @@ public class BaseFishKoi : MonoBehaviour
         if (FishDislike > maxFishDislike && !IsEscaping)
         {
             MyStateMachine.ChangeState(MyStateMachine.RunState);
-            _player.BreakingLine(1000);
         }
 
         if (transform.position.y > 6 && IsEscaping)

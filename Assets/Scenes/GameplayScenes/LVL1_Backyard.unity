@@ -291,10 +291,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1428842229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
-  m_SizeDelta: {x: 953.2, y: 424.2}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &544632539
 GameObject:
@@ -593,8 +593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   fish:
   - {fileID: 3912759667832918748, guid: 13b911b8ae75c9c409ca3459e38b0297, type: 3}
-  - {fileID: 7212110958059433044, guid: e1f76bc55dc6ef4488be55c812df3bb2, type: 3}
-  - {fileID: 7346461616213422804, guid: c8dcf9547723d57499cc11d96c872ecc, type: 3}
 --- !u!4 &749725515
 Transform:
   m_ObjectHideFlags: 0

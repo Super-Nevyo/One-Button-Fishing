@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CastingManager : MonoBehaviour
 {
@@ -137,6 +138,9 @@ public class CastingManager : MonoBehaviour
             StartCoroutine(clickTimer(0.5f));
             currentState = FishingState.Aim;
             TurnOffActions();
+            fish.IsHooked = false;
+            fish.OnReel(0);
+            fish = null;
         }
     }
 
