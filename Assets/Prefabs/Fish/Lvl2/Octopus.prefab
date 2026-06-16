@@ -189,7 +189,7 @@ MonoBehaviour:
   TurnSpeed: 30
   RunMult: 2
   maxFishDislike: 100
-  YankDislike: 20
+  YankDislike: 60
   ReelDislike: 5
   IdleMultiplier: 0.2
   dislikeDrain: 2

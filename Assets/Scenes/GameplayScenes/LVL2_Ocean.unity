@@ -1264,7 +1264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CastingManager
   reelSpeed: 10
   yankStrength: 5
-  lineIntegrity: 500
+  lineIntegrity: 200
   lineStrength: 0.1
   lineRenderer: {fileID: 1273094861}
   lineStrengthIdentifier: {fileID: 438055791}

@@ -114,13 +114,5 @@ public class BaseFishKoi : MonoBehaviour
 
 
 
-    private void OnDrawGizmos()
-    {
-        Handles.color = Color.yellow;
-        if (MoveToPoint != null)
-        {
-            Handles.DrawWireDisc(new Vector3(MoveToPoint.x, MoveToPoint.y, 0), Vector3.forward, 0.1f);
-        }
-    }
     
 }
